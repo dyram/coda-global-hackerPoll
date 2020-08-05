@@ -35,7 +35,6 @@ const AddTrack = ({ setData }) => {
 
   const [hName, setHname] = useState("");
   const [tags, setTags] = useState([]);
-  // const [available, setAvailable] = useState(false);
   const [tag, setTag] = useState("");
   const [tagRate, setTagRate] = useState();
   const [noChallenge, setNoChallenge] = useState();

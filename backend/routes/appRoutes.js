@@ -77,4 +77,14 @@ module.exports = app => {
         res.send(resp)
     })
 
+    app.post("/hacker/del", async (req, res) => {
+        let resp = await Hackers.deleteHacker(req.body.id)
+        res.send(resp)
+    })
+
+    app.post("/hacker/mod", async (req, res) => {
+        let resp = await Hackers.modifyHacker(req.body.modId, req.body.hName, req.body.noChallenge, req.body.expLevel, req.body.tags, req.body.votes)
+        res.send(resp)
+    })
+
 }

@@ -41,5 +41,31 @@ Hackers.getSkills = async () => {
     return promise;
 }
 
+Hackers.deleteHacker = async (data) => {
+    let prom = await Skill.destroy({ where: { HackerId: data } })
+    let promise = await Hack.destroy({ where: { id: data } })
+    return { promise, prom }
+}
+
+Hackers.modifyHacker = async (modId, hName, challenge, exp, tags, vote) => {
+    let promise = await Skill.destroy({ where: { HackerId: modId } })
+
+    let prom = await Hack.update({
+        name: hName,
+        challenge: parseInt(challenge),
+        expert: parseInt(exp),
+        votes: vote
+    }, { where: { id: modId } })
+
+    tags.map(async obj => {
+        await Skill.create({
+            skill: obj.label,
+            rating: parseInt(obj.rating),
+            HackerId: promise.id,
+        })
+    })
+
+    return { promise, prom }
+}
 
 module.exports = Hackers;

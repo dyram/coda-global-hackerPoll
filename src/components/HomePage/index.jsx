@@ -87,6 +87,20 @@ export default function HomePage() {
     });
   };
 
+  const deleteHacker = (data) => {
+    Axios.post("http://localhost:4000/hacker/del", data, {}).then((res) => {
+      console.log("DEL HACKER", res);
+      getHackers();
+    });
+  };
+
+  const modHacker = (data) => {
+    Axios.post("http://localhost:4000/hacker/mod", data, {}).then((res) => {
+      console.log("MOD HACKER", res);
+      getHackers();
+    });
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -116,6 +130,12 @@ export default function HomePage() {
           <AdminPage
             emitData={(data) => {
               addHacker(data);
+            }}
+            delHacker={(data) => {
+              deleteHacker(data);
+            }}
+            modData={(data) => {
+              modHacker(data);
             }}
             hackers={hackers}
           />
