@@ -31,6 +31,10 @@ Hackers.getHackers = async () => {
                 model: Skill,
                 attributes: ["id", "skill", "rating", "HackerId"]
             },
+            {
+                model: model.Votes,
+                attributes: ["id", "HackerId", "UserId", "isVoted"]
+            },
         ]
     });
     return promise;

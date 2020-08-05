@@ -6,9 +6,7 @@ module.exports = app => {
 
     const users = require("../models").Users;
 
-    // const Tracks = require("../controllers/trackController");
-    // const Likes = require("../controllers/likeController")
-    // const Comments = require("../controllers/commentController")
+    const Votes = require("../controllers/voteController")
     const Hackers = require("../controllers/hackerController")
 
     app.get("/", (req, res) => {
@@ -84,6 +82,17 @@ module.exports = app => {
 
     app.post("/hacker/mod", async (req, res) => {
         let resp = await Hackers.modifyHacker(req.body.modId, req.body.hName, req.body.noChallenge, req.body.expLevel, req.body.tags, req.body.votes)
+        res.send(resp)
+    })
+
+    app.get("/votes", async (req, res) => {
+        let resp = await Votes.getVote()
+        res.send(resp)
+    })
+
+    app.post("/vote", async (req, res) => {
+        let decodedData = jwt.verify(req.body.userId, key.tokenKey).id;
+        let resp = await Votes.addVote(req.body.hackId, decodedData, req.body.liked)
         res.send(resp)
     })
 

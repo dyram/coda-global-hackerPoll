@@ -24,7 +24,6 @@ import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
 
 import AddHacker from "./AddHacker";
-// import Interaction from "./Interaction";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -210,7 +209,7 @@ const AdminPage = ({ emitData, hackers, delHacker, modData }) => {
                     color="textPrimary"
                   >
                     <em>No. of votes : </em>
-                    {obj.votes}
+                    {obj.Votes.length}
                     <Button
                       // style={{ marginLeft: "80vw" }}
                       onClick={(e) => handleClickOpen(obj.id, obj.votes)}
@@ -234,6 +233,7 @@ const AdminPage = ({ emitData, hackers, delHacker, modData }) => {
           </ListItem>
         ))}
       </List>
+
       <Dialog
         open={open}
         onClose={handleClose}

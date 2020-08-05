@@ -9,7 +9,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
-import Axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,8 +63,6 @@ const AddTrack = ({ setData }) => {
       noChallenge,
       expLevel,
       tags,
-      // available,
-      // path,
     };
 
     setData(data);
@@ -136,7 +133,6 @@ const AddTrack = ({ setData }) => {
             fullWidth
             value={tag}
             onChange={(e) => setTag(e.target.value)}
-            // onKeyDown={(e) => detectSpace(e.keyCode)}
           />
           &nbsp;&nbsp;
           <TextField

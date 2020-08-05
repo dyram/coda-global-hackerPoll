@@ -6,6 +6,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 import Comments from "./Comments";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,31 +24,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ViewerPage({
-  approvedTrack,
+  hackers,
   uid,
   login,
   emitData,
   likeData,
-  emitComm,
 }) {
   const classes = useStyles();
-
-  const addComm = (data) => {
-    emitComm(data);
-  };
 
   const addData = (data) => {
     emitData(data);
   };
 
+  useEffect(() => {
+    console.log("VIEWER PAGE LIKE DATA", likeData);
+  }, [likeData]);
+
   return (
     <div>
-      Viewer
-      {/* <List className={classes.root}>
-        {approvedTrack.map((obj, index) => (
+      <hr />
+      <Typography variant="button">&nbsp;&nbsp;Hackers</Typography>
+      <hr />
+      <List className={classes.root}>
+        {hackers.map((obj, ind) => (
           <ListItem alignItems="flex-start">
             <ListItemText
-              primary={obj.name}
+              primary={
+                <React.Fragment>
+                  {ind + 1} . {obj.name}
+                </React.Fragment>
+              }
               secondary={
                 <React.Fragment>
                   <Typography
@@ -52,41 +62,92 @@ export default function ViewerPage({
                     className={classes.inline}
                     color="textPrimary"
                   >
-                    Approval Status :{" "}
-                    {obj.approved
-                      ? "Verified Track"
-                      : "Awaiting approval from Admin"}
+                    <em>No. of challenges completed : </em>
+                    {obj.challenge}
                   </Typography>
                   <br />
-                  <audio controls>
-                    <source
-                      src={`./${obj.data.substring(9, obj.data.length)}`}
-                      type="audio/mpeg"
-                    />
-                  </audio>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    <em>Candidate Expertise Rating : </em>
+                    {obj.expert} / 5
+                  </Typography>
+                  <br />
+                  <br />
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography className={classes.heading}>
+                        Skills
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <List>
+                        {obj.Skills.map((objs, inds) => (
+                          <ListItemText
+                            primary={
+                              <React.Fragment>
+                                {inds + 1} . {objs.skill}
+                              </React.Fragment>
+                            }
+                            secondary={
+                              <React.Fragment>
+                                <Typography
+                                  component="span"
+                                  variant="body2"
+                                  className={classes.inline}
+                                  color="textPrimary"
+                                >
+                                  <em>Skill Expertise Level : </em>
+                                  {objs.rating} / 5
+                                </Typography>
+                              </React.Fragment>
+                            }
+                          />
+                        ))}
+                      </List>
+                    </AccordionDetails>
+                  </Accordion>
+                  <br />
+                  <br />
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    <em>No. of votes : </em>
+                    {obj.Votes.length}
+                  </Typography>
+                  <br />
+                  <br />
                   <Divider variant="inset" component="li" />
                 </React.Fragment>
               }
             />
-            <br />
             {login ? (
               <Comments
                 sendData={(data) => {
                   addData(data);
                 }}
-                sendComm={(data) => {
-                  addComm(data);
-                }}
-                trackName={obj.name}
+                hackName={obj.name}
+                hackId={obj.id}
                 userId={uid}
                 likeData={likeData}
+                // likeData={obj.Votes}
               />
             ) : (
               <span></span>
             )}
           </ListItem>
         ))}
-      </List> */}
+      </List>
     </div>
   );
 }

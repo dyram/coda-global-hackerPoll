@@ -28,15 +28,10 @@ export default function HomePage() {
   const [uid, setUid] = useState();
   const [showLogin, setShowLogin] = useState(false);
   const [adminLogin, setAdminLogin] = useState(false);
-  const [artistLogin, setArtistLogin] = useState(false);
-
-  // const [allTracks, setAllTracks] = useState([]);
-  // const [approveTracks, setApproveTracks] = useState([]);
-  // const [likes, setLikes] = useState([]);
-  // const [comments, setComments] = useState([]);
 
   const [hackers, setHackers] = useState([]);
   const [skills, setSkills] = useState([]);
+  const [votes, setVotes] = useState([]);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("userToken"));
@@ -45,12 +40,21 @@ export default function HomePage() {
       setUid(data.id);
       setShowLogin(data.validity);
       setAdminLogin(data.role);
+      getVotes();
     } else {
       setShowLogin(false);
       setAdminLogin(false);
-      setArtistLogin(false);
     }
   }, []);
+
+  const getVotes = () => {
+    Axios.get("http://localhost:4000/votes").then((res) => {
+      console.log("GET Votes", res);
+      if (res.status === 200) {
+        setVotes([...res.data]);
+      }
+    });
+  };
 
   const getHackers = () => {
     Axios.get("http://localhost:4000/hacker").then((res) => {
@@ -101,12 +105,26 @@ export default function HomePage() {
     });
   };
 
+  const addLike = (data) => {
+    if (data.liked) {
+      Axios.post("http://localhost:4000/vote", data).then((res) => {
+        console.log("VOTE POST", res);
+        getVotes();
+      });
+    } else {
+      Axios.post("http://localhost:4000/unvote", data).then((res) => {
+        console.log("UNVOTE POST", res);
+        getVotes();
+      });
+    }
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            AudioMate
+            HackerPolls
           </Typography>
           {showLogin ? (
             <Button onClick={logOutUser} color="inherit">
@@ -128,6 +146,7 @@ export default function HomePage() {
       {adminLogin ? (
         <span>
           <AdminPage
+            uid={uid}
             emitData={(data) => {
               addHacker(data);
             }}
@@ -143,16 +162,13 @@ export default function HomePage() {
       ) : (
         <span>
           <ViewerPage
-          // likeData={likes}
-          // emitComm={(data) => {
-          //   addComment(data);
-          // }}
-          // emitData={(data) => {
-          //   addLike(data);
-          // }}
-          // login={showLogin}
-          // uid={uid}
-          // approvedTrack={approveTracks}
+            likeData={votes}
+            emitData={(data) => {
+              addLike(data);
+            }}
+            login={showLogin}
+            uid={uid}
+            hackers={hackers}
           />
         </span>
       )}
