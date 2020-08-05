@@ -140,7 +140,7 @@ export default function ViewerPage({
                 hackId={obj.id}
                 userId={uid}
                 likeData={likeData}
-                // likeData={obj.Votes}
+                hackers={obj}
               />
             ) : (
               <span></span>

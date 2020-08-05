@@ -18,8 +18,8 @@ Votes.getVote = async () => {
     return promise;
 };
 
-Votes.deleteVote = async (tName, uid, liked) => {
-    let promise = await Vote.destroy({ where: { TrackId: tName, isLiked: !liked, UserId: uid } })
+Votes.deleteVote = async (hackId, uid, liked) => {
+    let promise = await Vote.destroy({ where: { HackerId: hackId, isVoted: !liked, UserId: uid } })
     return promise;
 }
 

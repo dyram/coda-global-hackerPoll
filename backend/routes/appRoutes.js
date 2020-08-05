@@ -96,4 +96,10 @@ module.exports = app => {
         res.send(resp)
     })
 
+    app.post("/unvote", async (req, res) => {
+        let decodedData = jwt.verify(req.body.userId, key.tokenKey).id;
+        let resp = await Votes.deleteVote(req.body.hackId, decodedData, req.body.liked)
+        res.send(resp)
+    })
+
 }

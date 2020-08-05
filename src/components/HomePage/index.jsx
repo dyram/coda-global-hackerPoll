@@ -110,11 +110,13 @@ export default function HomePage() {
       Axios.post("http://localhost:4000/vote", data).then((res) => {
         console.log("VOTE POST", res);
         getVotes();
+        getHackers();
       });
     } else {
       Axios.post("http://localhost:4000/unvote", data).then((res) => {
         console.log("UNVOTE POST", res);
         getVotes();
+        getHackers();
       });
     }
   };
